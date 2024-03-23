@@ -1,0 +1,20 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+   int arr[] = {25, 11, 7, 75, 56};  // Example array
+   int n = sizeof(arr) / sizeof(arr[0]);  // Determine array size
+
+   int maxElement = arr[0];  // Initialize maxElement with the first element
+
+   for (int i = 1; i < n; i++) {  // Iterate through remaining elements
+       if (arr[i] > maxElement) {
+           maxElement = arr[i];  // Update maxElement if a larger element is found
+       }
+   }
+
+   cout << "Largest element in the array: " << maxElement << endl;
+
+   return 0;
+}
