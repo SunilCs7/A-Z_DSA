@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+struct Item {
+  int value;
+  int weight;
+  double ratio; // Value-to-weight ratio for greedy selection
+};
+
+bool compareItems(const Item& a, const Item& b) {
+  return (a.ratio > b.ratio); // Sort by descending value-to-weight ratio
+}
+
+double fractionalKnapsack(const vector<Item>& items, int capacity) {
+  int n = items.size();
+  vector<Item> sortedItems(items);  // Create a copy to avoid modifying original data
+  sort(sortedItems.begin(), sortedItems.end(), compareItems);
+
+  double totalValue = 0.0;
+  int currentWeight = 0;
+
+  for (int i = 0; i < n; i++) {
+    if (currentWeight + sortedItems[i].weight <= capacity) {
+      // Add the entire item
+      totalValue += sortedItems[i].value;
+      currentWeight += sortedItems[i].weight;
+    } else {
+      // Add a fraction of the item to fill the remaining capacity
+      int remainingCapacity = capacity - currentWeight;
+      totalValue += (double)remainingCapacity * sortedItems[i].ratio;
+      currentWeight = capacity;
+      break;
+    }
+  }
+
+  return totalValue;
+}
+
+int main() {
+  vector<Item> items = {{60, 10}, {100, 20}, {120, 30}};
+  int capacity = 50;
+
+  double maxValue = fractionalKnapsack(items, capacity);
+  cout << "Maximum value obtainable: " << maxValue << endl;
+
+  return 0;
+}
